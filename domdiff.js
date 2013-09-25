@@ -122,6 +122,9 @@ var grow = function grow(array, element) {
   return array;
 };
 
+//diffing object
+var diff = [];
+
 /**
  * Attribute map difference
  */
@@ -142,7 +145,22 @@ var findAttrDiff = function findAttrDiff(t1, t2, route) {
   attr1.forEach(function(attr) {
     var pos = find(attr, attr2);
     if(pos === -1) {
-      console.log("attribute removed", attr.name, route);
+      diff.push(function removeAttribute(name, route) {
+		var removeAttribute = function removeAttribute() {
+		  console.log('test');
+		};
+		removeAttribute.toString = function toString() {
+		  return JSON.stringify({
+		    type: "removeAttribute",
+			name: attr.name,
+			route: route
+		  });
+		};
+		return removeAttribute;
+	  }(attr.name, route));
+	  
+	  console.log(diff[0].toString());
+      //console.log("attribute removed", attr.name, route);
       return;
     }
     var a2 = attr2.splice(pos,1)[0];
@@ -248,7 +266,7 @@ var findDiff = function findDiff(t1, t2, route) {
           } else {
             if (e1.nodeName == e2.nodeName) {
               // modification involves a change somewhere downstream
-              //console.log("modified <"+e1.nodeName+"> node", grow(route, i));
+              console.log("modified <"+e1.nodeName+"> node", grow(route, i));
               findDiff(e1, e2, grow(route, i));
             } else {
               // element node was replacemd by another element node
