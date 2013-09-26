@@ -150,7 +150,6 @@ var findAttrDiff = function findAttrDiff(t1, t2, route) {
         route: route,
         name: attr.name
       });
-      //console.log("attribute removed", attr.name, route);
       return;
     }
     var a2 = attr2.splice(pos,1)[0];
@@ -164,7 +163,6 @@ var findAttrDiff = function findAttrDiff(t1, t2, route) {
           newValue: a2.nodeValue
         }
       });
-      //console.log("attribute changed", attr.nodeValue, a2.nodeValue, route);
     }
   });
   attr2.forEach(function(attr) {
@@ -176,7 +174,6 @@ var findAttrDiff = function findAttrDiff(t1, t2, route) {
         value: attr.nodeValue
       } 
     });
-    //console.log("attribute added", attr.name, attr.nodeValue, route);
   });
 }
 
@@ -248,7 +245,6 @@ var findDiff = function findDiff(t1, t2, route) {
           routes: grow(route, i),
           elements: t2.childNodes[i]
         });
-        //console.log("insertion", grow(route, i), t2.childNodes[i]);
       }
     }
   }
@@ -261,7 +257,6 @@ var findDiff = function findDiff(t1, t2, route) {
           action: "removal",
           routes: grow(route, i)
         });
-        //console.log("removal", grow(route, i));
       }
     }
   }
@@ -286,7 +281,6 @@ var findDiff = function findDiff(t1, t2, route) {
                 newhtml: e2.data
               }
             });
-            //console.log("modified text node", e1.data, ">", e2.data, grow(route, i));
           } else {
             if (e1.nodeName == e2.nodeName) {
               // modification involves a change somewhere downstream
@@ -295,7 +289,6 @@ var findDiff = function findDiff(t1, t2, route) {
                 route: grow(route, i),
                 element: e1.nodeName
               });
-              //console.log("modified <"+e1.nodeName+"> node", grow(route, i));
               findDiff(e1, e2, grow(route, i));
             } else {
               // element node was replacemd by another element node
@@ -307,7 +300,6 @@ var findDiff = function findDiff(t1, t2, route) {
                   newElement: e2
                 }
               });
-              //console.log("replaced element node", e1, e2, grow(route, i));
             }
           }
         } else {
@@ -320,7 +312,6 @@ var findDiff = function findDiff(t1, t2, route) {
               newElement: e2
             }
           });
-          //console.log("replaced node", e1, e2, grow(route, i));
         }
       }
     }
