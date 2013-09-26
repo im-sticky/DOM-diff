@@ -15,7 +15,7 @@
       <p>test2</p>
       <b><em>bold emphatic</em></b>
       <hr>
-      <ol data-tooltip="magnificent">
+      <ol data-tooltip="magnificent" data-test="oh no" class="fancy">
         <li>one</li>
         <li>two</li>
         <li>three</li>
@@ -26,19 +26,11 @@
     </div>
 
     <div id="t2">
-      <p>test</p>
-      <p>test2</p>
+      <p>test1</p>
+      <h3>Replace p tag</h3>
       <b><em>bold emphatic</em></b>
       <hr class="serpico">
-      <ol>
-        <li>one</li>
-        <li>two</li>
-        <li>three</li>
-        <li><ul>
-          <li>no.</li>
-        </ul></li>
-        <li>four</li> <!-- problem -->
-      </ol>
+      <p>Replaced the OL</p>
     </div>
 
     <div id="result"></div>
@@ -65,6 +57,7 @@
         console.log(subtrees);
 
         findDiff(t1,t2);
+        console.log(diff);
       }());
     </script>
   </body>

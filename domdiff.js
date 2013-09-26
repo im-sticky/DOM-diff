@@ -145,31 +145,38 @@ var findAttrDiff = function findAttrDiff(t1, t2, route) {
   attr1.forEach(function(attr) {
     var pos = find(attr, attr2);
     if(pos === -1) {
-      diff.push(function removeAttribute(name, route) {
-		var removeAttribute = function removeAttribute() {
-		  console.log('test');
-		};
-		removeAttribute.toString = function toString() {
-		  return JSON.stringify({
-		    type: "removeAttribute",
-			name: attr.name,
-			route: route
-		  });
-		};
-		return removeAttribute;
-	  }(attr.name, route));
-	  
-	  console.log(diff[0].toString());
+      diff.push({
+        action: "removed attribute",
+        route: route,
+        name: attr.name
+      });
       //console.log("attribute removed", attr.name, route);
       return;
     }
     var a2 = attr2.splice(pos,1)[0];
     if(attr.nodeValue !== a2.nodeValue) {
-      console.log("attribute changed", attr.nodeValue, a2.nodeValue, route);
+      diff.push({
+        action: "modified attribute",
+        route: route,
+        attribute: {
+          name: attr.name,
+          oldValue: attr.nodeValue,
+          newValue: a2.nodeValue
+        }
+      });
+      //console.log("attribute changed", attr.nodeValue, a2.nodeValue, route);
     }
   });
   attr2.forEach(function(attr) {
-    console.log("attribute added", attr.name, attr.nodeValue, route);
+    diff.push({
+      action: "added attribute",
+      route: route,
+      attribute: {
+        name: attr.name,
+        value: attr.nodeValue
+      } 
+    });
+    //console.log("attribute added", attr.name, attr.nodeValue, route);
   });
 }
 
@@ -236,7 +243,12 @@ var findDiff = function findDiff(t1, t2, route) {
   if(t1.childNodes.length < t2.childNodes.length) {
     for (var i=0, last=t2.childNodes.length; i<last; i++) {
       if (gap2[i] === true) {
-        console.log("insertion", grow(route, i), t2.childNodes[i]);
+        diff.push({
+          action: "insertion",
+          routes: grow(route, i),
+          elements: t2.childNodes[i]
+        });
+        //console.log("insertion", grow(route, i), t2.childNodes[i]);
       }
     }
   }
@@ -245,7 +257,11 @@ var findDiff = function findDiff(t1, t2, route) {
   else if(t1.childNodes.length > t2.childNodes.length) {
     for (var i=0, last=t1.childNodes.length; i<last; i++) {
       if (gap1[i] === true) {
-        console.log("removal", grow(route, i));
+        diff.push({
+          action: "removal",
+          routes: grow(route, i)
+        });
+        //console.log("removal", grow(route, i));
       }
     }
   }
@@ -262,20 +278,49 @@ var findDiff = function findDiff(t1, t2, route) {
         if (e1.nodeType === e2.nodeType) {
           if (e1.nodeType === 3) {
             // difference in text values
-            console.log("modified text node", e1.data, ">", e2.data, grow(route, i));
+            diff.push({
+              action: "modified text node",
+              routes: grow(route, i),
+              html: {
+                oldhtml: e1.data,
+                newhtml: e2.data
+              }
+            });
+            //console.log("modified text node", e1.data, ">", e2.data, grow(route, i));
           } else {
             if (e1.nodeName == e2.nodeName) {
               // modification involves a change somewhere downstream
-              console.log("modified <"+e1.nodeName+"> node", grow(route, i));
+              diff.push({
+                action: "modified element node",
+                route: grow(route, i),
+                element: e1.nodeName
+              });
+              //console.log("modified <"+e1.nodeName+"> node", grow(route, i));
               findDiff(e1, e2, grow(route, i));
             } else {
               // element node was replacemd by another element node
-              console.log("replaced element node", e1, e2, grow(route, i));
+              diff.push({
+                action: "replaced element node",
+                route: grow(route, i),
+                elements: {
+                  oldElement: e1,
+                  newElement: e2
+                }
+              });
+              //console.log("replaced element node", e1, e2, grow(route, i));
             }
           }
         } else {
           // element or text node was replaced by text or element node, respectively
-          console.log("replaced node", e1, e2, grow(route, i));
+          diff.push({
+            action: "replaced node",
+            route: grow(route, i),
+            elements: {
+              oldElement: e1,
+              newElement: e2
+            }
+          });
+          //console.log("replaced node", e1, e2, grow(route, i));
         }
       }
     }
