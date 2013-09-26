@@ -182,7 +182,10 @@ var findAttrDiff = function findAttrDiff(t1, t2, route) {
  * between stable subtree mappings.
  */
 var findDiff = function findDiff(t1, t2, route) {
-  route = route || [];
+  if (!route) {
+    route = [];
+    diff = [];
+  }
 
   // find the stable subset
   var stable = markSubTrees(t1, t2);
