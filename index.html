@@ -81,7 +81,62 @@
 			<header><h1>Demo of library</h1></header>
 		</div>
 		<section id="demo">
-			<p>put demo stuff here.</p>
+			<div id="headingForDemo"><h1 id="editor">Editor</h1><h1 id="preview">Preview</h1></div>
+			<textarea id="one" nowrap wrap="off">
+
+
+
+<head><style>
+
+#editMe
+{
+width:100px;
+height:100px;
+background:yellow; /* Try yellow, blue, green, red*/
+position:relative;
+border:solid;
+
+}
+
+</style></head>
+<iframe style="margin-top: 30px; width: 44%; height: 66%;" src="http://www.youtube.com/embed/8uDuls5TyNE" frameborder="0" allowfullscreen></iframe>
+<p>Edit this box's colour, width and height </p>
+
+<div id="editMe"></div>
+<p>Try editing from ordered list to unordered list. </p>
+
+<ol>
+<li>
+First Item
+</li>
+<li>Second Item
+</li>
+</ol>
+
+      
+      
+
+      
+      
+      
+      
+
+      		</textarea>
+		<!-- section two, for reference only, mirrors the iframe source -->
+      <textarea id="two" readonly nowrap wrap="off"></textarea>
+
+	      <!-- content frame -->
+	      <iframe>
+	        <head>
+	          <meta charset="utf-8">
+	          <title>preview frame</title>
+	        </head>
+	        <body></body>
+	      </iframe>	
 		</section>
+
+
+
+
 	</body>
 </html>

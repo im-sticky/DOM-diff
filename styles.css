@@ -28,6 +28,51 @@ section {
 
 #demo {
 	border-top: 1px solid black;
-	height: 500px;
+	height: 600px;
 	width: 100%;
+	margin-bottom: 90px;
+}
+#headingForDemo{
+	height: 35px;
+}
+
+#headingForDemo h1{
+	margin-top: 8px;
+}
+
+#editor{
+    position: absolute;
+    left: 10%;
+}
+
+#preview{
+    position: absolute;
+    left: 74%;
+}
+
+textarea, iframe {
+  display: inline-block;
+  width: 23.5%;
+  margin: 0;
+  padding: 0;
+  height: 600px;
+  border: 1px solid black;
+  overflow-x: scroll;
+  font-size: 90%;
+  font-family: monospace;
+  background-color: white;
+  margin: 10px;
+}
+
+iframe {
+  width: 48%;
+}
+
+.textblock {
+  width: 800px;
+  margin: auto;
+  margin-bottom: 1em;
+  border: 1px solid brown;
+  background-color: #FFFFF0;
+  padding: 0 0.5em;
 }
