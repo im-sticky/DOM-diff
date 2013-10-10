@@ -56,4 +56,4 @@ require(["DOMdiff", "markSubTrees", "applyDiff", "findAttrDiff"], function(DOMdi
   // kickstart on DOM ready
   document.addEventListener("DOMContentLoaded", init, false);
 
-}());
+});
