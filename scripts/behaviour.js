@@ -1,5 +1,4 @@
-require(["DOMdiff", "markSubTrees", "applyDiff", "findAttrDiff"], function(DOMdiff, markSubTrees, applyDiff, findAttrDiff) {
-
+(function() {
   /**
    * What to do when someone types in either of the source code textareas
    */
@@ -35,25 +34,33 @@ require(["DOMdiff", "markSubTrees", "applyDiff", "findAttrDiff"], function(DOMdi
    */
   function init() {
     document.removeEventListener("DOMContentLoaded", init, false);
+    
+    require(["DOMdiff"], function(DOMdiff){
+    
+      // quick find/make, and the text areas
+      find = function(s) { return document.querySelector(s); },
+      make = function(t,c) { var d = document.createElement(t); if(c) d.innerHTML = c; return d; },
 
-    // quick find/make, and the text areas
-    find = function(s) { return document.querySelector(s); },
-    make = function(t,c) { var d = document.createElement(t); if(c) d.innerHTML = c; return d; },
-    t1 = find("#one"),
-    t2 = find("#two"),
-    t3 = find("#three"),
-    frame = new Frame(find("iframe"));
+      t1 = find("#one"),
+      t2 = find("#two"),
+      t3 = find("#three"),
+      frame = new Frame(find("iframe"));
 
-    // set frame content
-    t2.value = t1.value;
-    frame.set(t1.value);
+      // set frame content
+      t2.value = t1.value;
+      frame.set(t1.value);
 
-    // bind event handling and parse
-    t1.onkeyup = function() { parse(frame) };
-    parse(frame, true);
+      // bind event handling and parse
+      t1.onkeyup = function() { parse(frame) };
+
+      //..do other stuff here
+
+      parse(frame, true);
+
+    });
   }
 
   // kickstart on DOM ready
   document.addEventListener("DOMContentLoaded", init, false);
 
-});
+}());
