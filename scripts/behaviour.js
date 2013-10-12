@@ -2,7 +2,7 @@
   /**
    * What to do when someone types in either of the source code textareas
    */
-  var parse = function(frame) {
+    var parse = function(frame, DOMdiff) {
     // validate using slowparse
     var ret = Slowparse.HTML(document, t1.value);
     if(ret.error) {
@@ -15,8 +15,9 @@
         d2 = make("div", t2.value);
 
     // Get diff
-    var routes = DOMdiff.getDiff(d1, d2);
-
+    DOMdiff.findDiff(d1, d2);
+    console.log(DOMdiff.diffTracker);
+    /*
     // Turn diff into pure string for "transport",
     // then reconstitute and use to update second DOM
     var serialized = JSON.stringify(routes);
@@ -26,6 +27,7 @@
 
     // update iframe
     frame.update(t1.value);
+    */
   };
 
   /**
@@ -51,11 +53,11 @@
       frame.set(t1.value);
 
       // bind event handling and parse
-      t1.onkeyup = function() { parse(frame) };
-
-      //..do other stuff here
-
-      parse(frame, true);
+      t1.onkeyup = function() { 
+        parse(frame, DOMdiff);
+      };
+      
+      parse(frame, DOMdiff, true);
 
     });
   }
