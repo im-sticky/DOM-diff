@@ -50,8 +50,26 @@
 
 			<header><h1>How to use DOM-diff</h1></header>
 			<section>
-				<p>Insert example of library usage here.</p>
-				<p><code>//add some code here</code></p>
+				<p>Using the library is quite simple. It does however have one dependancy, which is RequireJS. You can get RequireJS either from this repo, or from their <a href="http://requirejs.org/docs/download.html#requirejs" target="_blank">website</a>.</p>
+
+				<p>You first load the DOMdiff library with the require.js script. Then you call the require function passing in an array with "DOMdiff" as an element. You will get the DOMdiff object in the callback of the require function. Example:</p>
+
+				<p><pre><code>&lt;script data-main="DOMdiff.js" src="require.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+require(["DOMdiff"], function(DOMdiff) {
+    //insert DOMdiff usage here
+});
+&lt;/script&gt;</code></pre></p>
+
+				<p>You now have access to the DOMdiff functions within that callback function. To use it, you simply call the findDiff function, passing in two dom trees. Your diff result will be in the diffTracker array. Example:</p>
+
+				<p><pre><code>var t1 = document.getElementById("t1");
+var t2 = document.getElementById("t2");
+
+DOMdiff.findDiff(t1,t2);
+console.log(DOMdiff.diffTracker.diffInformation);</code></pre></p>
+
+			<p>All of the modifications, deletions and additions will be stored in the diffTracker array.</p>
 			</section>
 
 			<header><h1>Try it out right here!</h1></header>

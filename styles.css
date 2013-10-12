@@ -31,3 +31,11 @@ section {
 	height: 500px;
 	width: 100%;
 }
+
+a {
+	color: #666666;
+}
+
+a:visited {
+	color: #666666;
+}
