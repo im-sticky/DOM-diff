@@ -15,8 +15,11 @@
         d2 = make("div", t2.value);
 
     // Get diff
-    DOMdiff.findDiff(d1, d2);
-    console.log(DOMdiff.diffTracker);
+    DOMdiff.findDiff(d2, d1);
+    var diffs = DOMdiff.diffTracker.diffInformation;
+    DOMdiff.applyDiff.applyDiff(diffs, d1);
+    t2.value = d1.innerHTML;
+    //console.log(DOMdiff.diffTracker);
     /*
     // Turn diff into pure string for "transport",
     // then reconstitute and use to update second DOM
@@ -57,7 +60,7 @@
         parse(frame, DOMdiff);
       };
       
-      parse(frame, DOMdiff, true);
+      //parse(frame, DOMdiff, true);
 
     });
   }
