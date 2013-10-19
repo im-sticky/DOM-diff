@@ -4,21 +4,21 @@
    */
     var parse = function(frame, DOMdiff) {
     // validate using slowparse
-    var ret = Slowparse.HTML(document, t1.value);
+    var ret = Slowparse.HTML(document, textEditor.value);
     if(ret.error) {
-      t1.style.background = "rgba(255,0,0,0.1)";
+      textEditor.style.background = "rgba(255,0,0,0.1)";
       return false;
-    } else { t1.style.background = "white"; }
+    } else { textEditor.style.background = "white"; }
 
     // form DOM trees
-    var d1 = make("div", t1.value),
-        d2 = make("div", t2.value);
+    var latest = make("div", textEditor.value),
+        oldest = make("div", textPreview.value);
 
     // Get diff
-    DOMdiff.findDiff(d2, d1);
+    DOMdiff.findDiff(oldest, latest);
     var diffs = DOMdiff.diffTracker.diffInformation;
-    DOMdiff.applyDiff.applyDiff(diffs, d1);
-    t2.value = d1.innerHTML;
+    DOMdiff.applyDiff.applyDiff(diffs, latest);
+    textPreview.value = latest.innerHTML;
     //console.log(DOMdiff.diffTracker);
     /*
     // Turn diff into pure string for "transport",
@@ -46,17 +46,17 @@
       find = function(s) { return document.querySelector(s); },
       make = function(t,c) { var d = document.createElement(t); if(c) d.innerHTML = c; return d; },
 
-      t1 = find("#one"),
-      t2 = find("#two"),
+      textEditor = find("#one"),
+      textPreview = find("#two"),
       t3 = find("#three"),
       frame = new Frame(find("iframe"));
 
       // set frame content
-      t2.value = t1.value;
-      frame.set(t1.value);
+      textPreview.value = textEditor.value;
+      frame.set(textEditor.value);
 
       // bind event handling and parse
-      t1.onkeyup = function() { 
+      textEditor.onkeyup = function() { 
         parse(frame, DOMdiff);
       };
       
