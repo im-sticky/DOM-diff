@@ -34,12 +34,13 @@
     /**
      * send new content
      */
-    update: function(source) {
+    update: function(source, DOMdiff) {
       var d1 = make("body"),
           d2 = this.body;
       d1.innerHTML = source;
-      var routes = DOMdiff.getDiff(d1, d2);
-      DOMdiff.applyDiff(routes, d1, d2);
+      DOMdiff.findDiff(d2, d1);
+      var diffs = DOMdiff.diffTracker.diffInformation;
+      DOMdiff.applyDiff.applyDiff(diffs, d2);
     }
   };
 

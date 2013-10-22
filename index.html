@@ -11,64 +11,81 @@
 
 			<header><h1>What is DOM-diff?</h1></header>
 			<section>
-				<p>This is a demonstrator of a DOM "diff" implementation: it takes
+				<p>This is a demonstrator of a DOM "diff" implementation. It takes
 				two DOM elements, compares them, and then generates the sequence of
 				removals, insertions, and relocations that are necessary to transform
 				the second element into the first.</p>
 
-				<p>This is particularly useful when you're doing HTML previews, and
-				you don't want to refresh the entire preview page just because someone
-				typed a single letter in a list element, or when you're doing live
-				editing and you don't want to reset audio, video or canvas elements
-				that are active on the page.</p>
+				<p>This is particularly useful when you're doing HTML previews. 
+				You don't want to refresh the entire preview page just because someone
+				updated a few words on the page. It is especially usefull when you're 
+				doing live editing and you don't want to reset audio, video or canvas 
+				elements that are active on the page.</p>
 
-				<h2>...why?</h2>
+				<h2>Why make this?</h2>
 
-				<p><i>Hack the planet</i>. Also, having worked on the
-				<a href="https://webmaker.org/en-US/tools/#thimble" target="_blank">Thimble</a>
-				html editing tool for <a href="http://Webmaker.org" target="_blank">Mozilla Webmaker</a>,
-				which does full preview refreshing, I wondered how hard it would be to
-				implement a system that only updated those parts that got changed, rather
-				than the entire page preview. As it turns out, it's a few days work to
-				get it all working correctly, and hopefully we can now tailor it to
-				make using Thimble even better.</p>
+				<p>Having worked on <a href="https://webmaker.org/en-US/tools/#thimble" target="_blank">Thimble</a>, 
+				the HTML editing tool for <a href="http://Webmaker.org" target="_blank">Mozilla Webmaker</a>, 
+				I wondered how hard it would be to implement a system that only updated the parts of the DOM 
+				that got changed, rather than the entire page preview. As it turns out, it was only a few days of work to
+				get it all working correctly, and hopefully we can now tailor it to make using Thimble even better.</p>
 
-				<h2>...and where do I get this thing?</h2>
+				<h2>Where do I get this thing?</h2>
 
 				<p>Right here. You're actually on a github page, and the code is
-				housed in the same place. For the code view, just head over to
+				housed in the same place. To find the code, just head over to
 				<a href="https://github.com/Pomax/DOM-diff/tree/gh-pages" target="_blank">this view instead</a>.
-				It needs a bit of cleanup and refractoring, but feel free to play
-				with it, and let me know if you run across any bugs. Things can
-				only get better =)</p>
+				It is currently in the middle of some cleanup and refractoring, but feel free to play around 
+				with it. Let me know if you run across any bugs, it can only get better from here! =)</p>
 
-				<p>If you're going to fork this, everything's in the <code>gh-pages</code>
-				branch, not master, because it's a demonstrator. Having it go
+				<p>If you're going to fork this everything is in the <code>gh-pages</code>
+				branch, not master. This is because it's a demonstrator. Having it go
 				straight to the webpage branch makes far more sense than keeping
-				it in master and copying it over all the time.</p>
+				it in master and having to copy it over all the time.</p>
 			</section>
 
 			<header><h1>How to use DOM-diff</h1></header>
 			<section>
-				<p>Insert example of library usage here.</p>
-				<p><code>//add some code here</code></p>
+				<p>Using the library is quite simple. It does however have one dependancy, 
+				which is RequireJS. You can get RequireJS either from this repo, 
+				or from their <a href="http://requirejs.org/docs/download.html#requirejs" target="_blank">website</a>.</p>
+
+				<p>You first load the DOMdiff library with the require.js script. 
+				Then you call the require function passing in an array with "DOMdiff" as an element. 
+				You will get the DOMdiff object in the callback of the require function. Example:</p>
+
+				<p><pre><code>&lt;script data-main="DOMdiff.js" src="require.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+require(["DOMdiff"], function(DOMdiff) {
+    //insert DOMdiff usage here
+});
+&lt;/script&gt;</code></pre></p>
+
+				<p>You now have access to the DOMdiff functions within that callback function. 
+				To use it, you simply call the findDiff function, passing in two dom trees. 
+				Your diff result will be in the diffTracker array. Example:</p>
+
+				<p><pre><code>var t1 = document.getElementById("t1");
+var t2 = document.getElementById("t2");
+
+DOMdiff.findDiff(t1,t2);
+console.log(DOMdiff.diffTracker.diffInformation);</code></pre></p>
+
+			<p>All of the modifications, deletions and additions will be stored in the diffTracker array.</p>
 			</section>
 
 			<header><h1>Try it out right here!</h1></header>
 			<section>
-				<p>Go change the HTML code in the textarea on the left.
-				Everytime you change something, the second textarea should
-				be updated so that it becomes identical to the first
-				Also, to prove it really does only apply selective
-				changes, the default code has a youtube video and some input
-				fields. In the preview on the right, start playing the video,
-				and change the text in the text fields, then start editing
-				the HTML code. Give some element a <code>style="border: 20px solid red"</code>
-				or insert a <code>&lt;ul&gt;&lt;li&gt;lol&lt;/li&gt;&lt;/ul&gt;</code>,
-				change a paragraph's text, or go crazy and add a full
-				<code>&lt;style&gt;...&lt;/style&gt;</code> block!
-				That youtube video will keep playing while you're editing
-				the source. Because this is DOM diffing, baby!</p>
+				<p>To test out the DOMdiff library, just edit the code in the left pane. 
+				The middle pane will update as you edit the code showing you which lines you have edited. 
+				The iFrame on the right side will also update to relfect your code changes. 
+				But that's not really proof that the library is working, so lets try that out.</p>
+
+				<p>In the default code there's a youtube video and some input fields. 
+				Go ahead and start playing the video or change the text in the input fields, 
+				and start editing the HTML code. The video will continue playing and the text will remain the same 
+				as long as you don't edit that element directly. Go crazy and add a full <code>&lt;style&gt;...&lt;/style&gt;</code> block! 
+				That youtube video will keep playing while you're editing the source, cause this is DOM diffing baby!</p>
 
 				<p>You'll also notice that the left textarea goes red while
 				you have invalid HTML code in the textarea (so it doesn't

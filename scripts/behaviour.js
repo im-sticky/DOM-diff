@@ -8,7 +8,10 @@
     if(ret.error) {
       textEditor.style.background = "rgba(255,0,0,0.1)";
       return false;
-    } else { textEditor.style.background = "white"; }
+    } 
+    else {
+      textEditor.style.background = "white";
+    }
 
     // form DOM trees
     var latest = make("div", textEditor.value),
@@ -19,18 +22,11 @@
     var diffs = DOMdiff.diffTracker.diffInformation;
     DOMdiff.applyDiff.applyDiff(diffs, latest);
     textPreview.value = latest.innerHTML;
-    //console.log(DOMdiff.diffTracker);
-    /*
-    // Turn diff into pure string for "transport",
-    // then reconstitute and use to update second DOM
-    var serialized = JSON.stringify(routes);
-    var deserialized = JSON.parse(serialized);
-    DOMdiff.applyDiff(deserialized, d1, d2);
-    t2.value = d2.innerHTML;
 
+
+    //No sure how we are supposed to do JSON serialization stuff, so we removed it for now. 
     // update iframe
-    frame.update(t1.value);
-    */
+    frame.update(textEditor.value, DOMdiff);
   };
 
   /**
@@ -59,9 +55,6 @@
       textEditor.onkeyup = function() { 
         parse(frame, DOMdiff);
       };
-      
-      //parse(frame, DOMdiff, true);
-
     });
   }
 
