@@ -18,9 +18,9 @@ define(function (require) {
 	QUnit.module("getFirstDiff tests");
 
 	/**
-	 * 
+	 * Tests whether the function only finds the first DOM tree difference or not.
 	 */
-	QUnit.test("", function() {
+	QUnit.test("getFirstDiff for multi difference DOM tree", function() {
 		var t1, t2, firstDiff, gapInfo, subset;
 
 		t1 = make("div", "<div>Hello</div>");
@@ -29,9 +29,36 @@ define(function (require) {
 		subset = markSubtrees(t1, t2);
 		gapInfo = utils.getGapInformation(t1, t2, subset);
 		firstDiff = getFirstDiff(t1, t2, gapInfo);
-		console.log(firstDiff);
 
-		ok(1 === 1, "f");
+		ok(firstDiff.action === "replace", "text has been replaced");
+		ok(firstDiff.newValue === "Goodbye", "new value is 'Goodbye'");
+
+		t1 = make("div", "<div><p>The first paragraph</p><p>The second paragraph</p></div>");
+		t2 = make("div", "<div><p>The first paragraph</p><p>This paragraph is different<p>The third paragraph</p></div>");
+
+		subset = markSubtrees(t1, t2);
+		gapInfo = utils.getGapInformation(t1, t2, subset);
+		firstDiff = getFirstDiff(t1, t2, gapInfo);
+		
+		ok (firstDiff.action === "replace", "the first difference's text has been replaced")
+		
+		t2 = make("div", "<div><div>The first paragraph</div><p>This should not be shown</p></div>");
+		
+		/****** FOR SOME REASONE RETURNING NO DIFFERENCE ******/
+		subset = markSubtrees(t1, t2);
+		gapInfo = utils.getGapInformation(t1, t2, subset);
+		firstDiff = getFirstDiff(t1, t2, gapInfo);
+		//console.log(firstDiff);
+
+		t2 = make("div", "<p>Test 1</p><p>Test 2</p>");
+
+		/**** NOT SHOWING THE DIFFERENCE AS THE DIV BEING REMOVED??? *****/
+		subset = markSubtrees(t1, t2);
+		gapInfo = utils.getGapInformation(t1, t2, subset);
+		firstDiff = getFirstDiff(t1, t2, gapInfo);
+		//console.log(firstDiff);
+
+
 	});
 
 });
