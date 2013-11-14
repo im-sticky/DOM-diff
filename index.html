@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>DOM-diff Library</title>
+		<link rel="stylesheet" href="styles.css">
+	</head>
+
+	<body>
+		<div class="wrapper">
+
+			<header><h1>What is DOM-diff?</h1></header>
+			<section>
+				<p>This is a demonstrator of a DOM "diff" implementation. It takes
+				two DOM elements, compares them, and then generates the sequence of
+				removals, insertions, and relocations that are necessary to transform
+				the second element into the first.</p>
+
+				<p>This is particularly useful when you're doing HTML previews. 
+				You don't want to refresh the entire preview page just because someone
+				updated a few words on the page. It is especially usefull when you're 
+				doing live editing and you don't want to reset audio, video or canvas 
+				elements that are active on the page.</p>
+
+				<h2>Why make this?</h2>
+
+				<p>Having worked on <a href="https://webmaker.org/en-US/tools/#thimble" target="_blank">Thimble</a>, 
+				the HTML editing tool for <a href="http://Webmaker.org" target="_blank">Mozilla Webmaker</a>, 
+				I wondered how hard it would be to implement a system that only updated the parts of the DOM 
+				that got changed, rather than the entire page preview. As it turns out, it was only a few days of work to
+				get it all working correctly, and hopefully we can now tailor it to make using Thimble even better.</p>
+
+				<h2>Where do I get this thing?</h2>
+
+				<p>Right here. You're actually on a github page, and the code is
+				housed in the same place. To find the code, just head over to
+				<a href="https://github.com/Pomax/DOM-diff/tree/gh-pages" target="_blank">this view instead</a>.
+				It is currently in the middle of some cleanup and refractoring, but feel free to play around 
+				with it. Let me know if you run across any bugs, it can only get better from here! =)</p>
+
+				<p>If you're going to fork this everything is in the <code>gh-pages</code>
+				branch, not master. This is because it's a demonstrator. Having it go
+				straight to the webpage branch makes far more sense than keeping
+				it in master and having to copy it over all the time.</p>
+			</section>
+
+			<header><h1>How to use DOM-diff</h1></header>
+			<section>
+				<p>Using the library is quite simple. It does however have one dependancy, 
+				which is RequireJS. You can get RequireJS either from this repo, 
+				or from their <a href="http://requirejs.org/docs/download.html#requirejs" target="_blank">website</a>.</p>
+
+				<p>You first load the DOMdiff library with the require.js script. 
+				Then you call the require function passing in an array with "DOMdiff" as an element. 
+				You will get the DOMdiff object in the callback of the require function. Example:</p>
+
+				<p><pre><code>&lt;script data-main="DOMdiff.js" src="require.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+require(["DOMdiff"], function(DOMdiff) {
+    //insert DOMdiff usage here
+});
+&lt;/script&gt;</code></pre></p>
+
+				<p>You now have access to the DOMdiff functions within that callback function. 
+				To use it, you simply call the findDiff function, passing in two dom trees. 
+				Your diff result will be in the diffTracker array. Example:</p>
+
+				<p><pre><code>var t1 = document.getElementById("t1");
+var t2 = document.getElementById("t2");
+
+DOMdiff.findDiff(t1,t2);
+console.log(DOMdiff.diffTracker.diffInformation);</code></pre></p>
+
+			<p>All of the modifications, deletions and additions will be stored in the diffTracker array.</p>
+			</section>
+
+			<header><h1>Try it out right here!</h1></header>
+			<section>
+				<p>To test out the DOMdiff library, just edit the code in the left pane. 
+				The middle pane will update as you edit the code showing you which lines you have edited. 
+				The iFrame on the right side will also update to relfect your code changes. 
+				But that's not really proof that the library is working, so lets try that out.</p>
+
+				<p>In the default code there's a youtube video and some input fields. 
+				Go ahead and start playing the video or change the text in the input fields, 
+				and start editing the HTML code. The video will continue playing and the text will remain the same 
+				as long as you don't edit that element directly. Go crazy and add a full <code>&lt;style&gt;...&lt;/style&gt;</code> block! 
+				That youtube video will keep playing while you're editing the source, cause this is DOM diffing baby!</p>
+
+				<p>You'll also notice that the left textarea goes red while
+				you have invalid HTML code in the textarea (so it doesn't
+				try to update to something illegal). This comes courtesy
+				of the <a href="https://github.com/mozilla/slowparse" target="_blank">slowparse</a>
+				project, which is awesome, and totally open to improvements
+				if you want to help improve that =)</p>
+			</section>
+
+			<header><h1>Demo of library</h1></header>
+		</div>
+		<section id="demo">
+			<div id="headingForDemo"><h1 id="editor">Editor</h1><h1 id="preview">Preview</h1></div>
+			<textarea id="one" nowrap wrap="off">
+
+
+
+<head><style>
+
+#editMe
+{
+width:100px;
+height:100px;
+background:yellow; /* Try yellow, blue, green, red*/
+position:relative;
+border:solid;
+
+}
+
+</style></head>
+<iframe style="margin-top: 30px; width: 44%; height: 66%;" src="http://www.youtube.com/embed/8uDuls5TyNE" frameborder="0" allowfullscreen></iframe>
+<p>Edit this box's colour, width and height </p>
+
+<div id="editMe"></div>
+<p>Try editing from ordered list to unordered list. </p>
+
+<ol>
+<li>
+First Item
+</li>
+<li>Second Item
+</li>
+</ol>
+      		</textarea>
+		<!-- section two, for reference only, mirrors the iframe source -->
+      <textarea id="two" readonly nowrap wrap="off"></textarea>
+
+	      <!-- content frame -->
+	      <iframe>
+	        <head>
+	          <meta charset="utf-8">
+	          <title>preview frame</title>
+	        </head>
+	        <body></body>
+	      </iframe>	
+		</section>
+    <script src="scripts/slowparse.js"></script>
+    <script src="require.js"></script>
+    <script data-main="DOMdiff.js" src="require.js"></script>
+    <script src="scripts/Frame.js"></script>
+    <script src="scripts/behaviour.js"></script>
+	</body>
+</html>

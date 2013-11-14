@@ -1,0 +1,80 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	background: #E9E9E9 url(background.png) repeat top left;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.wrapper {
+	width: 1000px;
+	margin: 10px auto 0;
+	padding: 5px 0 1em 0;
+	background: #FFFFFF;
+  border: solid 1px;
+  border-bottom: 0px;
+}
+
+header {
+	text-align: center;
+	padding-top: 15px;
+}
+
+header h1 {
+	margin: 0;
+}
+
+section {
+	width: 800px;
+	margin: 0 auto;
+}
+
+#demo {
+	border-top: 1px solid black;
+	height: 600px;
+	width: 100%;
+	margin-bottom: 90px;
+}
+
+#headingForDemo{
+	height: 35px;
+}
+
+#headingForDemo h1{
+	margin-top: 8px;
+}
+
+#editor{
+    position: absolute;
+    left: 10%;
+}
+
+#preview{
+    position: absolute;
+    left: 74%;
+}
+
+textarea, iframe {
+  display: inline-block;
+  width: 23.5%;
+  margin: 0;
+  padding: 0;
+  height: 600px;
+  border: 1px solid black;
+  overflow-x: scroll;
+  font-size: 90%;
+  font-family: monospace;
+  background-color: white;
+  margin: 10px;
+}
+
+iframe {
+  width: 48%;
+}
+
+a {
+	color: #666666;
+}
+
+a:visited {
+	color: #666666;
+}
