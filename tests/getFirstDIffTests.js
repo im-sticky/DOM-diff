@@ -44,20 +44,19 @@ define(function (require) {
 		
 		t2 = make("div", "<div><div>The first paragraph</div><p>This should not be shown</p></div>");
 		
-		/****** FOR SOME REASONE RETURNING NO DIFFERENCE ******/
 		subset = markSubtrees(t1, t2);
 		gapInfo = utils.getGapInformation(t1, t2, subset);
 		firstDiff = getFirstDiff(t1, t2, gapInfo);
-		//console.log(firstDiff);
+
+		ok(firstDiff.action === "text to node", "the p tag has been replaced with a div");
 
 		t2 = make("div", "<p>Test 1</p><p>Test 2</p>");
 
-		/**** NOT SHOWING THE DIFFERENCE AS THE DIV BEING REMOVED??? *****/
 		subset = markSubtrees(t1, t2);
 		gapInfo = utils.getGapInformation(t1, t2, subset);
 		firstDiff = getFirstDiff(t1, t2, gapInfo);
-		//console.log(firstDiff);
-
+		
+		ok(firstDiff.action === "remove", "the div tag has been removed");
 
 	});
 
